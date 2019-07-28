@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TravelerPractise</string>
+    <string name="asai">Asai</string>
+    <string name="africa">Africa</string>
+    <string name="europe">Europe</string>
+    <string name="northAmeria">North Ameria</string>
+    <string name="southAmeria">South Ameria</string>
+</resources>
