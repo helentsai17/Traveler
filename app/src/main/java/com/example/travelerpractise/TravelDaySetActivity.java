@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -36,7 +37,6 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class TravelDaySetActivity extends AppCompatActivity {
 
-    public static final String DATE_FORMAT = "yyyy/M/d";
 
     private String cContinent;
     private Spinner cCountry;
@@ -44,6 +44,7 @@ public class TravelDaySetActivity extends AppCompatActivity {
     private TextView cTravelDate;
     private TextView cReturnDate;
     private Button checklist;
+    private TextView tryDate;
 
     private String key;
     private String continent;
@@ -51,11 +52,13 @@ public class TravelDaySetActivity extends AppCompatActivity {
     private String city;
     private String travelDate;
     private String returnDate;
-
-
+    private long diff;
+    private String days;
 
     public double cityLa;
     public double cityLo;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,27 @@ public class TravelDaySetActivity extends AppCompatActivity {
         returnDate = getIntent().getStringExtra("returnDate");
 
         passingGeo();
+
+        //Todo: move to method;
+        checklist = findViewById(R.id.checklist1);
+        tryDate = findViewById(R.id.textView2);
+
+        String dateStr = travelDate;
+        String dateEnd = returnDate;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date1 = sdf.parse(dateStr);
+            Date date2 = sdf.parse(dateEnd);
+
+            diff = (date2.getTime() - date1.getTime());
+            days = "Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            tryDate.setText(days);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 

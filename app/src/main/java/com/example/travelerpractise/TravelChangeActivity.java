@@ -62,7 +62,7 @@ public class TravelChangeActivity extends AppCompatActivity {
                 travel.setContinent(cContinent);
                 travel.setCountry(cCountry.getSelectedItem().toString());
                 travel.setCity(cCity.getText().toString());
-                travel.setTravelDate(cReturnDate.getText().toString());
+                travel.setTravelDate(cTravelDate.getText().toString());
                 travel.setReturnDate(cReturnDate.getText().toString());
                 new FirebaseDatabaseHelper().updateTravel(key, travel, new FirebaseDatabaseHelper.DataStatus() {
                     @Override
