@@ -59,4 +59,21 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
+    public void updateTravel(String key,Travel travel,final DataStatus dataStatus){
+        mReference.child(key).setValue(travel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                dataStatus.DataIsUpdated();
+            }
+        });
+    }
+
+    public void deleteTravel(String key,final DataStatus dataStatus){
+        mReference.child(key).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                dataStatus.DataIsDeleted();
+            }
+        });
+    }
 }

@@ -1,7 +1,9 @@
 package com.example.travelerpractise;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -36,11 +38,26 @@ public class RecyclerView_Config {
             super(LayoutInflater.from(mContext).inflate(R.layout.travel_list_file,parent,false));
             //TODO:check it should be ViewGroup or View ...also the super ()
 
-            goContinent = itemView.findViewById(R.id.setContient);
+            goContinent = itemView.findViewById(R.id.setContinent);
             goCountry = itemView.findViewById(R.id.setCountry);
             goCity = itemView.findViewById(R.id.setCity);
             goTravelDate = itemView.findViewById(R.id.setTravelDate);
             goReturnDate = itemView.findViewById(R.id.setReturnDate);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,TravelDaySetActivity.class);
+                    intent.putExtra("key",key);
+                    intent.putExtra("continent",goContinent.getText().toString());
+                    intent.putExtra("country",goCountry.getText().toString());
+                    intent.putExtra("city",goCity.getText().toString());
+                    intent.putExtra("travelDate",goTravelDate.getText().toString());
+                    intent.putExtra("returnDate",goReturnDate.getText().toString());
+
+                    mContext.startActivity(intent);
+                }
+            });
 
         }
         public void bind(Travel travel, String key){

@@ -5,4 +5,7 @@
     <string name="europe">Europe</string>
     <string name="northAmeria">North Ameria</string>
     <string name="southAmeria">South Ameria</string>
+
+    <string name="google_map_api_key">AIzaSyBKlBjLucdgxetfpHYG552YX2xAzdrVFdY</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

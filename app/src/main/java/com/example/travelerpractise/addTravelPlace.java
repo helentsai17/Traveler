@@ -2,6 +2,7 @@ package com.example.travelerpractise;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ public class addTravelPlace extends AppCompatActivity {
     private TextView addTravelDate;
     private TextView addReturnDate;
 
+    private Button checklist;
     private Button saveTravel;
 
 
@@ -33,7 +35,17 @@ public class addTravelPlace extends AppCompatActivity {
         addTravelDate = findViewById(R.id.travel_date);
         addReturnDate = findViewById(R.id.return_Date);
 
-        saveTravel = findViewById(R.id.saveTravel);
+        checklist = findViewById(R.id.checkList);
+        checklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(addTravelPlace.this,MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+        saveTravel = findViewById(R.id.update);
+
+
 
         saveTravel.setOnClickListener(new View.OnClickListener() {
             @Override
