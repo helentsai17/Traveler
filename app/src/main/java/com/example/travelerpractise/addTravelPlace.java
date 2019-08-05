@@ -39,7 +39,7 @@ public class addTravelPlace extends AppCompatActivity {
         checklist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(addTravelPlace.this,MapsActivity.class);
+                Intent intent = new Intent(addTravelPlace.this,CreateDiaryActivity.class);
                 startActivity(intent);
             }
         });
