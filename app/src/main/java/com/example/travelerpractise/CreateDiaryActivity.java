@@ -54,6 +54,9 @@ public class CreateDiaryActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
 
+    DatabaseReference databaseReference;
+    HashMap<String,String> hashMap;
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +78,11 @@ public class CreateDiaryActivity extends AppCompatActivity {
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-                    //intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(intent,PICK_IMAGE_REQUEST);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+                //intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,PICK_IMAGE_REQUEST);
             }
 
 
@@ -101,13 +104,17 @@ public class CreateDiaryActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String url = String.valueOf(uri);
-                                    StoreLink(url);
+                                    hashMap = new HashMap<>();
+                                    hashMap.put("Imagelink",url);
+
                                 }
                             });
                         }
                     });
 
                 }
+                Diary diary = new Diary(mEditTextFileName.getText().toString().trim(),hashMap);
+                mDatabaseRef.push().setValue(diary);
 
             }
         });
@@ -202,9 +209,9 @@ public class CreateDiaryActivity extends AppCompatActivity {
 
                     int currentImageSelet = 0;
                     while(currentImageSelet<countClipData){
-                     ImageUri = data.getClipData().getItemAt(currentImageSelet).getUri();
-                     ImageList.add(ImageUri);
-                     currentImageSelet = currentImageSelet+1;
+                        ImageUri = data.getClipData().getItemAt(currentImageSelet).getUri();
+                        ImageList.add(ImageUri);
+                        currentImageSelet = currentImageSelet+1;
 
                         Picasso.with(this).load(ImageUri).into(mImageView);
                     }

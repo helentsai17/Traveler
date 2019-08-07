@@ -43,6 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/checklist1" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dayRecyclerView"
         android:layout_width="395dp"
         android:layout_height="292dp"
         android:layout_marginStart="8dp"
