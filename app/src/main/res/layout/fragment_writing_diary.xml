@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WritingDiaryFragment">
+
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/imagePageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical" />
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+                <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/sym_def_app_icon" />
+
+
+                <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/sym_def_app_icon" />
+
+                <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/sym_def_app_icon" />
+        </LinearLayout>
+            <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:padding="20dp"-->
+                <!--android:textSize="18sp"-->
+                <!--android:text="@string/a_diary_is_a_record_originally_in_handwritten_format_with_discrete_entries_arranged_by_date_reporting_on_what_has_happened_over_the_course_of_a_day_or_other_period_a_personal_diary_may_include_a_person_s_experiences_thoughts_and_or_feelings_excluding_comments_on_current_events_outside_the_writer_s_direct_experience_someone_who_keeps_a_diary_is_known_as_a_diarist_diaries_undertaken_for_institutional_purposes_play_a_role_in_many_aspects_of_human_civilization_including_government_records_e_g_hansard_business_ledgers_and_military_records_in_british_english_the_word_may_also_denote_a_preprinted_journal_format_a_diary_is_a_collection_of_notes_today_the_term_is_generally_employed_for_personal_diaries_normally_intended_to_remain_private_or_to_have_a_limited_circulation_amongst_friends_or_relatives_the_word"-->
+                <!--android:journal = " may be sometimes used for diary, but generally a diary has (or intends to have) daily entries, whereas journal-writing can be less frequent.-->
+
+            <!--Although a diary may provide information for a memoir, autobiography or biography, it is generally written not with the intention of being published as it stands, but for the author's own use. In recent years, however, there is internal evidence in some diaries (e.g. those of Ned Rorem, Alan Clark, Tony Benn or Simon Gray) that they are written with eventual publication in mind, with the intention of self-vindication (pre- or posthumous), or simply for profit.-->
+
+            <!--By extension the term diary is also used to mean a printed publication of a written diary; and may also refer to other terms of journal including electronic formats (e.g. blogs)."/>-->
+            <!--</androidx.core.widget.NestedScrollView>-->
+            </ScrollView>
+        </LinearLayout>
+
+
+
+</FrameLayout>

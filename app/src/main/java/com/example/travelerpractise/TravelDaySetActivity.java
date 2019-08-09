@@ -3,6 +3,8 @@ package com.example.travelerpractise;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -58,6 +60,10 @@ public class TravelDaySetActivity extends AppCompatActivity {
     public double cityLa;
     public double cityLo;
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private  RecyclerView.LayoutManager layoutManager;
+
 
 
     @Override
@@ -73,6 +79,7 @@ public class TravelDaySetActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
 
+
         key = getIntent().getStringExtra("key");
         continent = getIntent().getStringExtra("continent");
         country = getIntent().getStringExtra("country");
@@ -80,11 +87,35 @@ public class TravelDaySetActivity extends AppCompatActivity {
         travelDate = getIntent().getStringExtra("travelDate");
         returnDate = getIntent().getStringExtra("returnDate");
 
-        passingGeo();
+        ArrayList<DaysCard> daysCards = new ArrayList<>();
+        daysCards.add(new DaysCard("03/03/2019","day 1"));
+        daysCards.add(new DaysCard("03/04/2019","day 2"));
+        daysCards.add(new DaysCard("03/05/2019","day 3"));
+        daysCards.add(new DaysCard("03/06/2019","day 4"));
+        daysCards.add(new DaysCard("03/07/2019","day 5"));
+        daysCards.add(new DaysCard("03/08/2019","day 6"));
+
+
+
+        recyclerView = findViewById(R.id.daySetRecycler);
+        layoutManager = new LinearLayoutManager(this);
+        adapter = new DayCountAdapter(daysCards);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
 
         //Todo: move to method;
         checklist = findViewById(R.id.checklist1);
         tryDate = findViewById(R.id.textView2);
+
+        checklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TravelDaySetActivity.this,TestedActivity.class);
+                startActivity(intent);
+            }
+        });
 
         String dateStr = travelDate;
         String dateEnd = returnDate;
@@ -94,14 +125,12 @@ public class TravelDaySetActivity extends AppCompatActivity {
             Date date2 = sdf.parse(dateEnd);
 
             diff = (date2.getTime() - date1.getTime());
-            days = "Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            days = "Day " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
             tryDate.setText(days);
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
 
     }
 
