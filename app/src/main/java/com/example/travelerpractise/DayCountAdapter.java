@@ -16,20 +16,35 @@ import java.util.List;
 
 public class DayCountAdapter extends RecyclerView.Adapter<DayCountAdapter.DayCountHolder>{
     private ArrayList<DaysCard> DayList;
+    private OnNoteListener mOnNoteListener;
 
+    public DayCountAdapter(ArrayList<DaysCard> dayList, OnNoteListener mOnNoteListener) {
+        DayList = dayList;
+        this.mOnNoteListener = mOnNoteListener;
+    }
 
-    public static class DayCountHolder extends RecyclerView.ViewHolder{
+    public static class DayCountHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView dayItem;
         TextView countdays;
+        OnNoteListener onNoteListener;
 
-        public DayCountHolder(@NonNull View itemView) {
+        public DayCountHolder(@NonNull View itemView,OnNoteListener onNoteListener) {
             super(itemView);
 
             dayItem = itemView.findViewById(R.id.daysItem);
             countdays = itemView.findViewById(R.id.countday);
 
+            this.onNoteListener = onNoteListener;
+            itemView.setOnClickListener(this);
 
+        }
+
+
+        @Override
+        public void onClick(View view) {
+
+            onNoteListener.onNotClick(getAdapterPosition());
         }
     }
 
@@ -42,7 +57,7 @@ public class DayCountAdapter extends RecyclerView.Adapter<DayCountAdapter.DayCou
     @Override
     public DayCountHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_to_day_cardview2,parent,false);
-        DayCountHolder viewholder = new DayCountHolder(view);
+        DayCountHolder viewholder = new DayCountHolder(view,mOnNoteListener);
 
         return viewholder;
     }
@@ -61,4 +76,7 @@ public class DayCountAdapter extends RecyclerView.Adapter<DayCountAdapter.DayCou
     }
 
 
+    public interface OnNoteListener{
+        void onNotClick(int position);
+    }
 }

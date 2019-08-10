@@ -1,4 +1,4 @@
-package com.example.travelerpractise;
+package com.example.travelerpractise.FragmentForTreePage;
 
 
 import android.os.Bundle;
@@ -9,14 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.travelerpractise.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BudgetFragment extends Fragment {
+public class ScheduleFragment extends Fragment {
 
 
-    public BudgetFragment() {
+    public ScheduleFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +26,8 @@ public class BudgetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_budget, container, false);
+        View schedule = inflater.inflate(R.layout.fragment_schedule, container, false);
+        return schedule;
     }
 
 }

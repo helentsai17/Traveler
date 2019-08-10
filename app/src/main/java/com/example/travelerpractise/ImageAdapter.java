@@ -1,48 +1,13 @@
 package com.example.travelerpractise;
 
 import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
-
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.viewpager.widget.PagerAdapter;
 
-public class WritingDiaryFragment extends Fragment {
-
-    public WritingDiaryFragment() {
-        // Required empty public constructor
-    }
-
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_writing_diary, container, false);
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-}
-
-
-
-
-
-
-
-
-class ImageAdapter extends PagerAdapter {
+public class ImageAdapter extends PagerAdapter {
     private Context context;
     private int[] GalImages = new int[] {
             R.drawable.asia, R.drawable.northamarica, R.drawable.southamarica,

@@ -2,7 +2,6 @@ package com.example.travelerpractise;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,8 +9,6 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.nfc.Tag;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,9 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.travelerpractise.FragmentForTreePage.TreeFragmentContenerActivity;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -32,12 +28,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static android.widget.Toast.LENGTH_LONG;
 
-public class TravelDaySetActivity extends AppCompatActivity {
+public class TravelDaySetActivity extends AppCompatActivity implements DayCountAdapter.OnNoteListener{
 
 
     private String cContinent;
@@ -99,7 +94,7 @@ public class TravelDaySetActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.daySetRecycler);
         layoutManager = new LinearLayoutManager(this);
-        adapter = new DayCountAdapter(daysCards);
+        adapter = new DayCountAdapter(daysCards,this);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -181,6 +176,9 @@ public class TravelDaySetActivity extends AppCompatActivity {
     }
 
 
-
-
+    @Override
+    public void onNotClick(int position) {
+        Intent intent = new Intent(this, TreeFragmentContenerActivity.class);
+        startActivity(intent);
+    }
 }
