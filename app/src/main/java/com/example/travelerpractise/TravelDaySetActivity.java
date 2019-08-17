@@ -1,10 +1,5 @@
 package com.example.travelerpractise;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.location.Address;
@@ -19,6 +14,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.travelerpractise.FragmentForTreePage.AddCalAndBudgetActivity;
 import com.example.travelerpractise.FragmentForTreePage.TreeFragmentContenerActivity;
 import com.google.android.gms.maps.MapFragment;
 
@@ -62,7 +63,7 @@ public class TravelDaySetActivity extends AppCompatActivity implements DayCountA
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_day_set);
 
@@ -107,7 +108,8 @@ public class TravelDaySetActivity extends AppCompatActivity implements DayCountA
         checklist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(TravelDaySetActivity.this, AddCalAndBudgetActivity.class);
+                startActivity(intent);
             }
         });
 

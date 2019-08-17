@@ -17,7 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FragmentForTreePage.TreeFragmentContenerActivity"></activity>
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".FragmentForTreePage.AddCalAndBudgetActivity" />
+        <activity android:name=".FragmentForTreePage.TreeFragmentContenerActivity" />
         <activity android:name=".CreateDiaryActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
