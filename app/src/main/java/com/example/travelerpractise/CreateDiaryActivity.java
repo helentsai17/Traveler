@@ -1,36 +1,27 @@
 package com.example.travelerpractise;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.android.gms.tasks.OnFailureListener;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Request;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +32,6 @@ public class CreateDiaryActivity extends AppCompatActivity {
     private Button mButtonChooseImage;
     private Button mButtonUpload;
 
-    private TextView mTextViewShowUpload;
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
@@ -54,7 +44,7 @@ public class CreateDiaryActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
 
-    DatabaseReference databaseReference;
+//    DatabaseReference databaseReference;
     HashMap<String,String> hashMap;
 
     @SuppressLint("WrongViewCast")
@@ -65,7 +55,7 @@ public class CreateDiaryActivity extends AppCompatActivity {
 
         mButtonChooseImage = findViewById(R.id.imageButton);
         mButtonUpload = findViewById(R.id.updateDiary);
-        mTextViewShowUpload = findViewById(R.id.upload_status);
+//        mTextViewShowUpload = findViewById(R.id.upload_status);
         mImageView = findViewById(R.id.image_choose);
         mEditTextFileName = findViewById(R.id.editName);
         mProgressBar = findViewById(R.id.progressBar);
@@ -78,11 +68,11 @@ public class CreateDiaryActivity extends AppCompatActivity {
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-                //intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,PICK_IMAGE_REQUEST);
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+                    //intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(intent,PICK_IMAGE_REQUEST);
             }
 
 
@@ -119,13 +109,6 @@ public class CreateDiaryActivity extends AppCompatActivity {
             }
         });
 
-        mTextViewShowUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-            }
-        });
     }
 
     private void StoreLink(String url) {
@@ -144,6 +127,49 @@ public class CreateDiaryActivity extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(uri));
     }
+
+
+    //show the image that been choose
+    private void openFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        //intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_IMAGE_REQUEST){
+            if (resultCode == RESULT_OK){
+                if(data.getClipData()!= null){
+
+                    int countClipData = data.getClipData().getItemCount();
+
+                    int currentImageSelet = 0;
+                    while(currentImageSelet<countClipData){
+                     ImageUri = data.getClipData().getItemAt(currentImageSelet).getUri();
+                     ImageList.add(ImageUri);
+                     currentImageSelet = currentImageSelet+1;
+
+                        Picasso.with(this).load(ImageUri).into(mImageView);
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+//if ((requestCode == PICK_IMAGE_REQUEST) && resultCode == RESULT_OK && (data != null) && (data.getData() != null)){
+//            ImageUri = data.getData();
+//
+//            Picasso.with(this).load(ImageUri).into(mImageView);
+//            //mImageView.setImageURI(ImageUri);
+
+
 //    private void uploadFile() {
 //        if (ImageUri != null){
 //            StorageReference fileReference = mStorageRef
@@ -187,46 +213,3 @@ public class CreateDiaryActivity extends AppCompatActivity {
 //            Toast.makeText(this,"No file selected",Toast.LENGTH_SHORT).show();
 //        }
 //    }
-
-    //show the image that been choose
-    private void openFileChooser() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-        //intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == PICK_IMAGE_REQUEST){
-            if (resultCode == RESULT_OK){
-                if(data.getClipData()!= null){
-
-                    int countClipData = data.getClipData().getItemCount();
-
-                    int currentImageSelet = 0;
-                    while(currentImageSelet<countClipData){
-                        ImageUri = data.getClipData().getItemAt(currentImageSelet).getUri();
-                        ImageList.add(ImageUri);
-                        currentImageSelet = currentImageSelet+1;
-
-                        Picasso.with(this).load(ImageUri).into(mImageView);
-                    }
-                    mTextViewShowUpload.setText("you have selet"+ImageList.size()+"Images");
-                }
-            }
-        }
-
-
-
-    }
-}
-
-//if ((requestCode == PICK_IMAGE_REQUEST) && resultCode == RESULT_OK && (data != null) && (data.getData() != null)){
-//            ImageUri = data.getData();
-//
-//            Picasso.with(this).load(ImageUri).into(mImageView);
-//            //mImageView.setImageURI(ImageUri);

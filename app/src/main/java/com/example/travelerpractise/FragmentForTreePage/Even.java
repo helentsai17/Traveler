@@ -11,6 +11,10 @@ public class Even {
     private String Image;
 
     public Even(String even, String address, String phoneNumber, String openHour, String cost, String web, String image) {
+        if(even.trim().equals("")){
+            even = "No Name";
+        }
+
         Even = even;
         Address = address;
         this.phoneNumber = phoneNumber;

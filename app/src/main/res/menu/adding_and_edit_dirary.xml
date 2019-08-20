@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="write a Diary"
+          android:id="@+id/write_diary"/>
+
+    <item android:title="create an even"
+          android:id="@+id/even_creater"/>
+
+    <item android:title="Even Manager"
+          android:id="@+id/Even_Manager"/>
+
+    <item android:title="map"
+    android:id="@+id/gotoMap"/>
+
+    <item android:title="Country collection"
+        android:id="@+id/gotoMain"/>
+
+    <item android:title="Log out"
+        android:id="@+id/logout"/>
+
+</menu>

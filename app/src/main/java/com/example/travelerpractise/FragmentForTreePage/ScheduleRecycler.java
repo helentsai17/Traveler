@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelerpractise.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -69,8 +71,15 @@ public class ScheduleRecycler extends RecyclerView.Adapter<ScheduleRecycler.Sche
     @Override
     public void onBindViewHolder(@NonNull ScheduleHolder holder, int position) {
 
-        holder.Even_name.setText(evens.get(position).getEven());
-        holder.Address.setText(evens.get(position).getAddress());
+        Even uploadCurrent = evens.get(position);
+        holder.Even_name.setText(uploadCurrent.getEven());
+        holder.Address.setText(uploadCurrent.getAddress());
+        Picasso.with(mContext)
+                .load(uploadCurrent.getImage())
+                .fit()
+                .centerCrop()
+                .into(holder.Image);
+
 
     }
 
@@ -84,7 +93,7 @@ public class ScheduleRecycler extends RecyclerView.Adapter<ScheduleRecycler.Sche
         private LinearLayout evenItem;
         private TextView Even_name;
         private TextView Address;
-        //private ImageView Image;
+        private ImageView Image;
 
 
 
@@ -95,7 +104,7 @@ public class ScheduleRecycler extends RecyclerView.Adapter<ScheduleRecycler.Sche
             evenItem = itemView.findViewById(R.id.Even_Item);
             Even_name = itemView.findViewById(R.id.Even_Name);
             Address = itemView.findViewById(R.id.Even_Address);
-            //Image = itemView.findViewById(R.id.photoImage);
+            Image = itemView.findViewById(R.id.photoImage);
 
         }
     }
