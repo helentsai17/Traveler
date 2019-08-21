@@ -49,7 +49,7 @@ public class ScheduleRecycler extends RecyclerView.Adapter<ScheduleRecycler.Sche
                 TextView EvenWeb = dialog.findViewById(R.id.EvenWeb);
                 TextView EvenCost = dialog.findViewById(R.id.EvenCost);
                 TextView EvenHours = dialog.findViewById(R.id.EvenHours);
-//                ImageView EvenView = dialog.findViewById(R.id.EvenPic);
+  //             ImageView EvenView = dialog.findViewById(R.id.EvenPic);
 
                 EvenName.setText(evens.get(scheduleHolder.getAdapterPosition()).getEven());
                 EvenAddress.setText(evens.get(scheduleHolder.getAdapterPosition()).getAddress());

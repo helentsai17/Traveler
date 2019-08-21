@@ -7,18 +7,24 @@ import androidx.fragment.app.FragmentPagerAdapter;
 public class TreePagesAdapter extends FragmentPagerAdapter {
 
 
+
+
     public TreePagesAdapter(FragmentManager fm) {
         super(fm);
+
     }
+
 
     @Override
     public Fragment getItem(int position) {
+        Fragment page = null;
         switch (position){
-            case 0 : return new BudgetFragment();
-            case 1 : return new ScheduleFragment();
-            case 2 : return new WritingDiaryFragment();
+            case 0 : page = new BudgetFragment();break;
+            case 1 : page = new ScheduleFragment();break;
+            case 2 : page = new WritingDiaryFragment();break;
+
         }
-        return null;
+        return page;
     }
 
     @Override
@@ -34,6 +40,7 @@ public class TreePagesAdapter extends FragmentPagerAdapter {
             case 0 : return "Budget";
             case 1 : return "Schedule";
             case 2 : return "Diary";
+
         }
 
         return null;

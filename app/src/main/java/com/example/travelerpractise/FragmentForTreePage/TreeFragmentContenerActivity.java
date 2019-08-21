@@ -2,6 +2,7 @@ package com.example.travelerpractise.FragmentForTreePage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,13 +15,18 @@ import com.example.travelerpractise.MainActivity;
 import com.example.travelerpractise.MapsActivity;
 import com.example.travelerpractise.R;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class TreeFragmentContenerActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private FirebaseDatabase mDatabase;
+    private TreePagesAdapter mFragmentAdapter = null;
 
 
     @Override
@@ -35,10 +41,37 @@ public class TreeFragmentContenerActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-    //    initDatabaseEven();
+        //initDatabaseEven();
+        initSchedule();
 
 
 
+    }
+
+    private void initSchedule() {
+
+        mDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference ref = mDatabase.getReference("EvenPlanner");
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //schduleDisplayFragment schduleDisplay = (schduleDisplayFragment)mFragmentAdapter.getItem(3);
+
+                for(DataSnapshot evenkey : dataSnapshot.getChildren()){
+                    Even even = evenkey.getValue(Even.class);
+                  //  schduleDisplay.routeSchdule(even);
+                    Log.e("event",evenkey.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        ref.addValueEventListener(listener);
     }
 
 //    private void initDatabaseEven() {
@@ -48,8 +81,13 @@ public class TreeFragmentContenerActivity extends AppCompatActivity {
 //        ValueEventListener listener = new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                ScheduleFragment schedule = (ScheduleFragment) madpter.getItem(1);
+//
 //                for(DataSnapshot evenkey : dataSnapshot.getChildren()){
 //                    Even even = evenkey.getValue(Even.class);
+//                    schedule.routevent(even);
+//                    Log.e("event",evenkey.toString());
 //                }
 //            }
 //
@@ -86,4 +124,7 @@ public class TreeFragmentContenerActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
