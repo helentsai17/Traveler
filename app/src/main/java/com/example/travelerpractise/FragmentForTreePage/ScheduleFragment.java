@@ -81,7 +81,7 @@ public class ScheduleFragment extends Fragment {
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild("image")){
+                       if (dataSnapshot.hasChild("image")){
                             String EventName = dataSnapshot.child("even").getValue().toString();
                             String EventAddress = dataSnapshot.child("address").getValue().toString();
                             String EventImage = dataSnapshot.child("image").getValue().toString();
@@ -94,7 +94,7 @@ public class ScheduleFragment extends Fragment {
                                     .centerCrop()
                                     .into(scheduleHolder.Image);
 
-                        }
+                       }
 
 
 
@@ -116,7 +116,7 @@ public class ScheduleFragment extends Fragment {
                 dialog = new Dialog(getContext());
                 dialog.setContentView(R.layout.pop_up_even);
 
-                
+
 
                 return scheduleHolder;
             }

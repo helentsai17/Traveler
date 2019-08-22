@@ -17,6 +17,14 @@
             android:layout_margin="10dp"
             app:cardCornerRadius="5dp">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@android:drawable/ic_input_add" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,7 +63,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/budgetRecycler"
         android:layout_width="match_parent"
-        android:layout_height="424dp" />
+        android:layout_height="424dp" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 
     </LinearLayout>
 </FrameLayout>
