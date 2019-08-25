@@ -60,12 +60,12 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/budgetRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="424dp" >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/budgetRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
 
     </LinearLayout>

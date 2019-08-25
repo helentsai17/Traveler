@@ -2,6 +2,7 @@ package com.example.travelerpractise.FragmentForTreePage;
 
 
 import android.app.Dialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,7 +25,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -32,16 +33,12 @@ import java.util.List;
  */
 public class ScheduleFragment extends Fragment {
 
-    private static final String ARG_COLUMN_COUNT = "column-count";
-
 
     private RecyclerView sRecyclerView;
     private List<Even> evens;
     private View scheduleView;
 
     private DatabaseReference mDatabase;
-
-
 
 
     public ScheduleFragment() {
@@ -72,31 +69,78 @@ public class ScheduleFragment extends Fragment {
                 .setQuery(mDatabase,Even.class)
                 .build();
 
-        FirebaseRecyclerAdapter<Even,ScheduleHolder> adapter
+        final FirebaseRecyclerAdapter<Even,ScheduleHolder> adapter
                 = new FirebaseRecyclerAdapter<Even, ScheduleHolder>(options) {
             private Dialog dialog;
             @Override
             protected void onBindViewHolder(@NonNull final ScheduleHolder scheduleHolder, int i, @NonNull Even even) {
 
-                mDatabase.addValueEventListener(new ValueEventListener() {
+                String userID = getRef(i).getKey();
+
+                mDatabase.child(userID).addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                       if (dataSnapshot.hasChild("image")){
-                            String EventName = dataSnapshot.child("even").getValue().toString();
-                            String EventAddress = dataSnapshot.child("address").getValue().toString();
-                            String EventImage = dataSnapshot.child("image").getValue().toString();
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+
+                       if (dataSnapshot.hasChild("even")){
+                            final String EventName = dataSnapshot.child("even").getValue().toString();
+                            final String EventAddress = dataSnapshot.child("address").getValue().toString();
+                            String EventPhoto = dataSnapshot.child("image").getValue().toString();
 
                             scheduleHolder.Even_name.setText(EventName);
                             scheduleHolder.Address.setText(EventAddress);
-                            Picasso.with(getContext())
-                                    .load(EventImage)
-                                    .fit()
-                                    .centerCrop()
-                                    .into(scheduleHolder.Image);
+                            scheduleHolder.EventImage.setImageURI(Uri.parse(EventPhoto));
+
+                           dialog = new Dialog(getContext());
+                           dialog.setContentView(R.layout.pop_up_even);
+
+                            scheduleHolder.evenItem.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getContext(),"Test Click"+String.valueOf(scheduleHolder.getAdapterPosition()),Toast.LENGTH_LONG).show();
+                                    TextView EvenName = dialog.findViewById(R.id.evenName);
+                                    TextView EvenAddress = dialog.findViewById(R.id.EvenAddress);
+                                    TextView EvenNumber = dialog.findViewById(R.id.EvenNumber);
+                                    TextView EvenWeb = dialog.findViewById(R.id.EvenWeb);
+                                    TextView EvenCost = dialog.findViewById(R.id.EvenCost);
+                                    TextView EvenHours = dialog.findViewById(R.id.EvenHours);
+                                    //ImageView EvenView = dialog.findViewById(R.id.EvenPic);
+
+                                    String eventNumber = dataSnapshot.child("openHour").getValue().toString();
+                                    String eventWebside = dataSnapshot.child("web").getValue().toString();
+                                    String eventCost = dataSnapshot.child("cost").getValue().toString();
+                                    String eventOpenHour = dataSnapshot.child("openHour").getValue().toString();
+
+
+                                    EvenName.setText(EventName);
+                                    EvenAddress.setText(EventAddress);
+                                    EvenNumber.setText(eventNumber);
+                                    EvenWeb.setText(eventWebside);
+                                    EvenCost.setText(eventCost);
+                                    EvenHours.setText(eventOpenHour);
+//                                    EvenView.setImageResource(evens.get(scheduleHolder.getAdapterPosition()).getImage());
+                                    dialog.show();
+
+
+                                }
+                            });
+
+                          // Glide.with(getContext()).load(EventPhoto).into(scheduleHolder.EventImage);
+
+//                           Picasso.get().load(EventImage).into(scheduleHolder.Image);
+//                            Picasso.with(getContext())
+//                                    .load(EventImage)
+//                                    .fit()
+//                                    .centerCrop()
+//                                    .into(scheduleHolder.EventImage);
+//
+//                           Picasso.with(getContext())
+//                                   .load(EventPhoto)
+//                                   .fit()
+//                                   .centerCrop()
+//                                   .into(scheduleHolder.EventImage);
+
 
                        }
-
-
 
                     }
 
@@ -110,12 +154,9 @@ public class ScheduleFragment extends Fragment {
             @NonNull
             @Override
             public ScheduleHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.travel_day_to_day,parent,false);
-                ScheduleHolder scheduleHolder = new ScheduleHolder(view);
-
-                dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.pop_up_even);
-
+                final ScheduleHolder scheduleHolder = new ScheduleHolder(view);
 
 
                 return scheduleHolder;
@@ -131,7 +172,7 @@ public class ScheduleFragment extends Fragment {
         private LinearLayout evenItem;
         private TextView Even_name;
         private TextView Address;
-        private ImageView Image;
+        private ImageView EventImage;
 
 
 
@@ -142,7 +183,7 @@ public class ScheduleFragment extends Fragment {
             evenItem = itemView.findViewById(R.id.Even_Item);
             Even_name = itemView.findViewById(R.id.Even_Name);
             Address = itemView.findViewById(R.id.Even_Address);
-            Image = itemView.findViewById(R.id.photoImage);
+            EventImage = itemView.findViewById(R.id.photoImage);
 
         }
     }

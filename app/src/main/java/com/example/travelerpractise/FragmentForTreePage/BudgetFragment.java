@@ -8,19 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelerpractise.R;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,12 +35,16 @@ import java.util.List;
  */
 public class BudgetFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private List<Budget> budgets;
     private View budgetView;
+    private RecyclerView bRecyclerView;
+    private List<Budget> budgets;
+
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
+
+    private DatabaseReference budgetRef;
+    FirebaseRecyclerAdapter<Budget,ViewHolder> Newadapter;
 
 
     public BudgetFragment() {
@@ -45,27 +55,16 @@ public class BudgetFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        budgets = new ArrayList<>();
-        budgets.add(new Budget("lunch","12","12"));
-        budgets.add(new Budget("hotel","40","40"));
-        budgets.add(new Budget("dinner","10","13"));
-        budgets.add(new Budget("train","9","9"));
-
-    }
-
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         budgetView = inflater.inflate(R.layout.fragment_budget, container, false);
 
-        recyclerView = budgetView.findViewById(R.id.budgetRecycler);
+        bRecyclerView = (RecyclerView) budgetView.findViewById(R.id.budgetRecycler);
         BudgetRecycler budgetRecycler = new BudgetRecycler(getContext(),budgets);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(budgetRecycler);
+        bRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        bRecyclerView.setAdapter(budgetRecycler);
+
+        budgetRef = FirebaseDatabase.getInstance().getReference().child("ItemCost");
 
         FloatingActionButton fab = (FloatingActionButton) budgetView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -126,4 +125,82 @@ public class BudgetFragment extends Fragment {
         return budgetView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<Budget>()
+                .setQuery(budgetRef,Budget.class)
+                .build();
+
+
+         Newadapter = new FirebaseRecyclerAdapter<Budget, ViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final ViewHolder budgetViewHolder, int i, @NonNull final Budget budget) {
+
+                String userID = getRef(i).getKey();
+                budgetRef.child(userID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChild("cost")){
+                            String buyItemName = dataSnapshot.child("itemName").getValue().toString();
+                            String buyItemCost = dataSnapshot.child("cost").getValue().toString();
+                            String buyItemChange = dataSnapshot.child("costChage").getValue().toString();
+
+                                 budgetViewHolder.ItemName.setText(buyItemName);
+                                 budgetViewHolder.ItemCost.setText(buyItemCost);
+                                 budgetViewHolder.ItemChange.setText(buyItemChange);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.budget_card,parent,false);
+                ViewHolder viewHolder = new ViewHolder(view);
+
+
+
+                return viewHolder;
+            }
+        };
+
+        bRecyclerView.setAdapter(Newadapter);
+        Newadapter.startListening();
+
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        TextView ItemName, ItemCost, ItemChange;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            ItemName = itemView.findViewById(R.id.budget_name);
+            ItemCost = itemView.findViewById(R.id.budget_cost);
+            ItemChange = itemView.findViewById(R.id.budget_change);
+        }
+    }
+
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//        budgets = new ArrayList<>();
+//        budgets.add(new Budget("lunch","12","12"));
+//        budgets.add(new Budget("hotel","40","40"));
+//        budgets.add(new Budget("dinner","10","13"));
+//        budgets.add(new Budget("train","9","9"));
+//
+//    }
 }

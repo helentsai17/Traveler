@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class TreeFragmentContenerActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
-    private FirebaseDatabase mDatabase;
+    private FirebaseDatabase mDatabase, setBudgetDatabase;
     private TreePagesAdapter mFragmentAdapter = null;
 
 
@@ -43,9 +43,32 @@ public class TreeFragmentContenerActivity extends AppCompatActivity {
 
         //initDatabaseEven();
         initSchedule();
+        initBudget();
 
 
 
+    }
+
+    private void initBudget() {
+        setBudgetDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference setbudgetRef = setBudgetDatabase.getReference("ItemCost");
+
+        ValueEventListener budgetListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot budgetKey : dataSnapshot.getChildren()){
+                    Budget budgetCost = budgetKey.getValue(Budget.class);
+
+                    Log.e("budget",budgetKey.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        setbudgetRef.addValueEventListener(budgetListener);
     }
 
     private void initSchedule() {

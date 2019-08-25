@@ -22,7 +22,7 @@
                android:textSize="20sp"/>
 
            <EditText
-               android:id="@+id/even_name"
+               android:id="@+id/budget_name"
                android:layout_width="match_parent"
                android:layout_height="wrap_content" />
        </LinearLayout>

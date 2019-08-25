@@ -57,7 +57,7 @@ public class AddCalAndBudgetActivity extends AppCompatActivity {
         EvenImage = findViewById(R.id.imageD);
         saveEven = findViewById(R.id.save_even);
 
-        evenName = findViewById(R.id.even_name);
+        evenName = findViewById(R.id.budget_name);
         address = findViewById(R.id.address);
         phoneNumber = findViewById(R.id.phone_number);
         cost = findViewById(R.id.expense);

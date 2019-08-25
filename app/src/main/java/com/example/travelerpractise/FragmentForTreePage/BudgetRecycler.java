@@ -55,9 +55,9 @@ public class BudgetRecycler extends RecyclerView.Adapter<BudgetRecycler.BudgetVi
         public BudgetViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemName = itemView.findViewById(R.id.even_name);
-            changeCost = itemView.findViewById(R.id.cost_change);
-            cost = itemView.findViewById(R.id.cost);
+            itemName = itemView.findViewById(R.id.budget_name);
+            changeCost = itemView.findViewById(R.id.budget_change);
+            cost = itemView.findViewById(R.id.budget_cost);
 
         }
     }
