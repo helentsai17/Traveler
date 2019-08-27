@@ -1,8 +1,5 @@
 package com.example.travelerpractise;
 
-import android.net.Uri;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Diary {
@@ -33,4 +30,6 @@ public class Diary {
         this.mDiaryText = mDiaryText;
         ImageSet = imageSet;
     }
+
+
 }

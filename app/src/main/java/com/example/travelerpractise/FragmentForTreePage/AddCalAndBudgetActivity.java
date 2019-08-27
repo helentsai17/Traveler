@@ -99,21 +99,32 @@ public class AddCalAndBudgetActivity extends AppCompatActivity {
 
     private void UploadEven() {
         if(mImageUri != null){
-            StorageReference fileReference = storageReference.child(System.currentTimeMillis()+"."
+            final StorageReference fileReference = storageReference.child(System.currentTimeMillis()+"."
                     +getFileExtension(mImageUri));
             fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String name = evenName.getText().toString();
-                    String Address = address.getText().toString();
-                    String PhoneNumber = phoneNumber.getText().toString();
-                    String Cost = cost.getText().toString();
-                    String Website = web.getText().toString();
-                    String OpenHour = openHour.getText().toString();
 
-                    Even even = new Even(name,Address,PhoneNumber,OpenHour,Cost,Website,taskSnapshot.getStorage().getDownloadUrl().toString());
-                    String uploadId = databaseReference.push().getKey();
-                    databaseReference.child(uploadId).setValue(even);
+                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String url = String.valueOf(uri);
+
+                            String name = evenName.getText().toString();
+                            String Address = address.getText().toString();
+                            String PhoneNumber = phoneNumber.getText().toString();
+                            String Cost = cost.getText().toString();
+                            String Website = web.getText().toString();
+                            String OpenHour = openHour.getText().toString();
+
+                            Even even = new Even(name,Address,PhoneNumber,OpenHour,Cost,Website,url);
+                            String uploadId = databaseReference.push().getKey();
+                            databaseReference.child(uploadId).setValue(even);
+
+
+                        }
+                    });
+
 
                 }
             });

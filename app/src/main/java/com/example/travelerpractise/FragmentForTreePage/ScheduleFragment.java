@@ -2,7 +2,6 @@ package com.example.travelerpractise.FragmentForTreePage;
 
 
 import android.app.Dialog;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -84,11 +84,13 @@ public class ScheduleFragment extends Fragment {
                        if (dataSnapshot.hasChild("even")){
                             final String EventName = dataSnapshot.child("even").getValue().toString();
                             final String EventAddress = dataSnapshot.child("address").getValue().toString();
-                            String EventPhoto = dataSnapshot.child("image").getValue().toString();
+                            final String EventPhoto = dataSnapshot.child("image").getValue().toString();
 
                             scheduleHolder.Even_name.setText(EventName);
                             scheduleHolder.Address.setText(EventAddress);
-                            scheduleHolder.EventImage.setImageURI(Uri.parse(EventPhoto));
+                            Picasso.with(getContext())
+                            .load(EventPhoto)
+                            .into(scheduleHolder.EventImage);
 
                            dialog = new Dialog(getContext());
                            dialog.setContentView(R.layout.pop_up_even);
@@ -103,12 +105,13 @@ public class ScheduleFragment extends Fragment {
                                     TextView EvenWeb = dialog.findViewById(R.id.EvenWeb);
                                     TextView EvenCost = dialog.findViewById(R.id.EvenCost);
                                     TextView EvenHours = dialog.findViewById(R.id.EvenHours);
-                                    //ImageView EvenView = dialog.findViewById(R.id.EvenPic);
+                                    ImageView EvenView = dialog.findViewById(R.id.EvenPic);
 
                                     String eventNumber = dataSnapshot.child("openHour").getValue().toString();
                                     String eventWebside = dataSnapshot.child("web").getValue().toString();
                                     String eventCost = dataSnapshot.child("cost").getValue().toString();
                                     String eventOpenHour = dataSnapshot.child("openHour").getValue().toString();
+
 
 
                                     EvenName.setText(EventName);
@@ -117,6 +120,9 @@ public class ScheduleFragment extends Fragment {
                                     EvenWeb.setText(eventWebside);
                                     EvenCost.setText(eventCost);
                                     EvenHours.setText(eventOpenHour);
+                                    Picasso.with(getContext())
+                                            .load(EventPhoto)
+                                            .into(EvenView);
 //                                    EvenView.setImageResource(evens.get(scheduleHolder.getAdapterPosition()).getImage());
                                     dialog.show();
 

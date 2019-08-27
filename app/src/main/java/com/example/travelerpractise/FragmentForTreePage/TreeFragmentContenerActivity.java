@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.travelerpractise.CreateDiaryActivity;
+import com.example.travelerpractise.Diary;
 import com.example.travelerpractise.MainActivity;
 import com.example.travelerpractise.MapsActivity;
 import com.example.travelerpractise.R;
@@ -25,8 +26,9 @@ import com.google.firebase.database.ValueEventListener;
 public class TreeFragmentContenerActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
-    private FirebaseDatabase mDatabase, setBudgetDatabase;
+    private FirebaseDatabase mDatabase, setBudgetDatabase ;
     private TreePagesAdapter mFragmentAdapter = null;
+    private DatabaseReference DiaryRef;
 
 
     @Override
@@ -44,9 +46,34 @@ public class TreeFragmentContenerActivity extends AppCompatActivity {
         //initDatabaseEven();
         initSchedule();
         initBudget();
+        initDiary();
 
 
 
+    }
+
+    private void initDiary() {
+
+        DiaryRef = FirebaseDatabase.getInstance().getReference("ImageFolder");
+        ValueEventListener diraylistener = DiaryRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot diaryKey : dataSnapshot.getChildren()){
+                    Diary diarywrite = diaryKey.getValue(Diary.class);
+
+                    Log.e("Diray", diaryKey.toString());
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DiaryRef.addValueEventListener(diraylistener);
     }
 
     private void initBudget() {
@@ -96,6 +123,8 @@ public class TreeFragmentContenerActivity extends AppCompatActivity {
         };
         ref.addValueEventListener(listener);
     }
+
+
 
 //    private void initDatabaseEven() {
 //        mDatabase = FirebaseDatabase.getInstance();
